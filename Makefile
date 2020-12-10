@@ -61,7 +61,7 @@ deploy_app:
 	@echo "Deploying to prod"
 
 tag_as_prod:
-	pact/bin/pact-broker create-version-tag \
+	pact/pact-broker create-version-tag \
 	  --pacticipant=${PACTICIPANT} \
 	  --version=${TRAVIS_COMMIT} \
 		--broker-base-url=${PACT_BROKER_BASE_URL} \
@@ -83,7 +83,7 @@ create_github_token_secret:
 # NOTE: the github token secret must be created (either through the UI or using the
 # `create_travis_token_secret` target) before the webhook is invoked.
 create_or_update_pact_changed_webhook:
-	pact/bin/pact-broker create-or-update-webhook \
+	pact/pact-broker create-or-update-webhook \
 	  "https://api.github.com/repos/${GITHUB_REPO}/dispatches" \
 	  --header='Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' 'Authorization: Bearer $${user.githubToken}' \
 	  --request=POST \
