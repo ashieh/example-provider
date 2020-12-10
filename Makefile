@@ -55,7 +55,7 @@ no_deploy:
 	@echo "Not deploying as not on master branch"
 
 can_i_deploy: .env
-	pact/pact-broker can-i-deploy --pacticipant=${PACTICIPANT} --version=${TRAVIS_COMMIT} --to=prod --broker-base-url=${PACT_BROKER_BASE_URL}
+	pact/bin/pact-broker can-i-deploy --pacticipant=${PACTICIPANT} --version=${TRAVIS_COMMIT} --to=prod --broker-base-url=${PACT_BROKER_BASE_URL} --broker-token=EKIaetf6uPElxwbO5b5KYA
 
 deploy_app:
 	@echo "Deploying to prod"
@@ -65,7 +65,8 @@ tag_as_prod:
 	  --pacticipant=${PACTICIPANT} \
 	  --version=${TRAVIS_COMMIT} \
 		--broker-base-url=${PACT_BROKER_BASE_URL} \
-	  --tag prod
+	  --tag=prod \
+		--broker-token=EKIaetf6uPElxwbO5b5KYA \
 
 ## =====================
 ## Pactflow set up tasks
@@ -90,6 +91,7 @@ create_or_update_pact_changed_webhook:
 	  --uuid=${PACT_CHANGED_WEBHOOK_UUID} \
 	  --consumer=${PACTICIPANT} \
 	  --contract-content-changed \
+		--broker-token=EKIaetf6uPElxwbO5b5KYA \
 	  --description="Pact content changed for ${PACTICIPANT}"
 
 test_pact_changed_webhook:
